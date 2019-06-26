@@ -293,27 +293,27 @@ class Recipe extends AbstractModel
                 $step->save();
                 $steps[] = $step;
             }
-        }
 
-        if (!empty($this->steps)) {
-            foreach ($this->steps as $oldStep) {
-                $isDelete = true;
-                foreach ($steps as $newStep) {
-                    if ($oldStep->getId() == $newStep->getId()) {
-                        $isDelete = false;
-                        break;
+            if (!empty($this->steps)) {
+                foreach ($this->steps as $oldStep) {
+                    $isDelete = true;
+                    foreach ($steps as $newStep) {
+                        if ($oldStep->getId() == $newStep->getId()) {
+                            $isDelete = false;
+                            break;
+                        }
+                    }
+
+                    if ($isDelete) {
+                        $oldStep->delete();
                     }
                 }
-
-                if ($isDelete) {
-                    $oldStep->delete();
-                }
             }
-        }
 
-        $this->steps = [];
-        foreach ($steps as $step) {
-            $this->steps[$step->getOrderNumber()] = $step;
+            $this->steps = [];
+            foreach ($steps as $step) {
+                $this->steps[$step->getOrderNumber()] = $step;
+            }
         }
 
         if (!empty($_POST['ingredients'])) {

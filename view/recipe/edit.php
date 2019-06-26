@@ -12,15 +12,15 @@
     </div>
     <fieldset>
         <div>
-            <h7>Название рецепта</h7>
+            <div class="field-title">Название рецепта</div>
             <input name="name" required value="<?php echo $recipeId ? $recipe->getName() : ''; ?>">
         </div>
         <div>
-            <div>Описание рецепта</div>
+            <div class="field-title">Описание рецепта</div>
             <textarea name="description" required><?php echo $recipeId ? $recipe->getDescription() : ''; ?></textarea>
         </div>
         <div id="categories">
-            <div>Категории рецепта</div>
+            <div class="field-title">Категории рецепта</div>
 
             <?php $i = 0; ?>
             <?php foreach ($categoryTree as $typeId => $categoriesByType) : ?>
@@ -45,7 +45,7 @@
             <?php endforeach; ?>
         </div>
         <div id="ingredients-tab">
-            <div>Ингредиенты</div>
+            <div class="field-title">Ингредиенты</div>
 
             <script>
                 var ingredients = JSON.parse('<?php echo json_encode($ingredients); ?>');
@@ -64,15 +64,15 @@
                             <input class="ingredient-id" name="ingredients[<?php echo $i; ?>][ingredient_id]" value="<?php echo $ingredient['ingredient_id']; ?>" hidden>
                             <div class="ingredient-name"><input name="ingredients[<?php echo $i; ?>][name]" value="<?php echo $ingredient['name']; ?>" placeholder="Имя"></div>
                             <div><input name="ingredients[<?php echo $i; ?>][amount]" value="<?php echo $ingredient['amount']; ?>" placeholder="Количество"></div>
-                            <label class="ingredient-delete"><input type="checkbox" name="ingredients[<?php echo $i; ?>][delete]">Удалить ингредиент</label>
+                            <label class="ingredient-delete"><input type="checkbox" name="ingredients[<?php echo $i; ?>][delete]" hidden>Удалить</label>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </div>
             <button class="btn" type="button" id="add-ingredient">Добавить ингредиент</button>
         </div>
-        <div>
-            <div><span>Галерея рецепта</span></div>
+        <div id="edit-recipe-gallery">
+            <div class="field-title">Галерея рецепта</div>
             <?php for ($i = 1; $i <= 5; $i++) : ?>
                 <div class="image-container">
                     <?php $isUploaded = $recipeId && !empty($recipe->getImages()[$i]); ?>
@@ -84,19 +84,20 @@
                     <div class="image-field" <?php echo $isUploaded ? 'hidden' : ''; ?>>
                         <input type="file" name="image[<?php echo $i; ?>]">
                     </div>
-                    <label class="image-delete" <?php echo !$isUploaded ? 'hidden' : ''; ?>><input type="checkbox" name="image[delete][<?php echo $i; ?>]">Удалить изображение</label>
+                    <label class="image-delete <?php echo $isUploaded ? 'btn' : ''; ?>" <?php echo !$isUploaded ? 'hidden' : ''; ?>><input type="checkbox" name="image[delete][<?php echo $i; ?>]" hidden>Удалить изображение</label>
                 </div>
             <?php endfor; ?>
         </div>
         <div id="steps-tab">
+            <div class="field-title">Шаги приготовления</div>
             <div id="steps">
                 <?php if ($recipeId && !empty($recipe->getSteps())) : ?>
                     <?php foreach ($recipe->getSteps() as $step) : ?>
                         <div class="step" id="step-<?php echo $step->getOrderNumber(); ?>" data-order-number="<?php echo $step->getOrderNumber(); ?>">
-                            <div><span>ШАГ <?php echo $step->getOrderNumber(); ?></span></div>
+                            <div class="field-title">ШАГ <?php echo $step->getOrderNumber(); ?></div>
                             <div class="image-container">
                                 <?php $isUploaded = !empty($step->getImage()); ?>
-                                <span>Изображение</span>
+                                <div>Изображение</div>
                                 <?php if ($isUploaded) : ?>
                                     <div class="image">
                                         <img src="/view/web/images/recipes/<?php echo $recipe->getId() . '/steps/' . $step->getImage(); ?>"/>
@@ -105,11 +106,11 @@
                                 <div class="image-field" <?php echo $isUploaded ? 'hidden' : ''; ?>>
                                     <input type="file" name="step[<?php echo $step->getOrderNumber(); ?>][image]">
                                 </div>
-                                <label class="image-delete" <?php echo !$isUploaded ? 'hidden' : ''; ?>><input type="checkbox" name="step[<?php echo $step->getOrderNumber(); ?>][image][delete]" <?php echo empty($step->getImage()) ? 'checked' : ''; ?>>Удалить изображение</label>
+                                <label class="image-delete <?php echo $isUploaded ? 'btn' : ''; ?>" <?php echo !$isUploaded ? 'hidden' : ''; ?>><input type="checkbox" name="step[<?php echo $step->getOrderNumber(); ?>][image][delete]" <?php echo empty($step->getImage()) ? 'checked' : ''; ?> hidden>Удалить изображение</label>
                             </div>
                             <div class="video-container">
                                 <?php $isUploaded = !empty($step->getVideo()); ?>
-                                <span>Видео</span>
+                                <div>Видео</div>
                                 <?php if ($isUploaded) : ?>
                                     <div class="video">
                                         <video autoplay muted="muted">
@@ -120,10 +121,10 @@
                                 <div class="video-field" <?php echo $isUploaded ? 'hidden' : ''; ?>>
                                     <input type="file" name="step[<?php echo $step->getOrderNumber(); ?>][video]">
                                 </div>
-                                <label class="video-delete" <?php echo !$isUploaded ? 'hidden' : ''; ?>><input type="checkbox" name="step[<?php echo $step->getOrderNumber(); ?>][video][delete]" <?php echo empty($step->getVideo()) ? 'checked' : ''; ?>>Удалить видео</label>
+                                <label class="video-delete <?php echo $isUploaded ? 'btn' : ''; ?>" <?php echo !$isUploaded ? 'hidden' : ''; ?>><input type="checkbox" name="step[<?php echo $step->getOrderNumber(); ?>][video][delete]" <?php echo empty($step->getVideo()) ? 'checked' : ''; ?> hidden>Удалить видео</label>
                             </div>
                             <div>
-                                <span>Описание шага</span>
+                                <div>Описание шага</div>
                                 <textarea name="step[<?php echo $step->getOrderNumber(); ?>][description]" required><?php echo $step->getDescription(); ?></textarea>
                             </div>
 
@@ -150,15 +151,15 @@
             }
 
             var stepTemplate = '<div class="step" id="step-' + id + '" data-order-number="' + id + '">' +
-                '<div><span>ШАГ ' + id + '</span></div>' +
+                '<div class="field-title">ШАГ ' + id + '</div>' +
                 '<div class="image-container">' +
-                '<span>Изображение</span>' +
+                '<div>Изображение</div>' +
                 '<div class="image-field"><input type="file" name="step[' + id + '][image]"></div>' +
-                '<label class="image-delete" hidden><input type="checkbox" name="step[' + id + '][image][delete]" checked>Удалить изображение</label>' +
+                '<label class="image-delete" hidden><input type="checkbox" name="step[' + id + '][image][delete]" checked hidden>Удалить изображение</label>' +
                 '</div>' +
-                '<div><span>Видео</span><input type="file" name="step[' + id + '][video]"></div>' +
-                '<label><input type="checkbox" name="step[' + id + '][video][delete]" checked>Удалить видео</label>' +
-                '<div><span>Описание шага</span><textarea name="step[' + id + '][description]" required></textarea></div>' +
+                '<div><div>Видео</div><input type="file" name="step[' + id + '][video]"></div>' +
+                '<label hidden><input type="checkbox" name="step[' + id + '][video][delete]" checked hidden>Удалить видео</label>' +
+                '<div><div>Описание шага</div><textarea name="step[' + id + '][description]" required></textarea></div>' +
                 '<button class="btn remove-step" type="button">Удалить шаг</button>' +
                 '</div>';
 
@@ -237,7 +238,7 @@
                 '<input class="ingredient-id" name="ingredients[' + id + '][ingredient_id]" hidden>' +
                 '<div class="ingredient-name"><input name="ingredients[' + id + '][name]" placeholder="Имя"></div>' +
                 '<div><input name="ingredients[' + id + '][amount]" placeholder="Количество"></div>' +
-                '<label class="ingredient-delete"><input type="checkbox" name="ingredients[' + id + '][delete]">Удалить ингредиент</label>' +
+                '<label class="ingredient-delete"><input type="checkbox" name="ingredients[' + id + '][delete]" hidden>Удалить</label>' +
                 '</div>';
 
             $('#ingredients').append(ingredientTemplate);

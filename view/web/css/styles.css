@@ -198,6 +198,8 @@ header {
     position: relative;
     z-index:99;
     background:url(../images/tail-header.gif);
+    margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .line-top{
@@ -362,7 +364,8 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
     display:inline-block
 }
 .box-img img{
-    max-width: 100%;
+    width: 100%;
+    max-height: 250px;
     border-radius:7px;
     -moz-border-radius:7px;
     -webkit-border-radius:7px;}
@@ -477,6 +480,7 @@ ul.sf-menu li li li:hover ul, ul.sf-menu li li li.sfHover ul {
 /*----- btns -----*/
 
 .btn {
+    cursor: pointer;
     display:inline-block;
     color:#fff;
     border: none;
@@ -542,7 +546,7 @@ fieldset {
 }
 input,
 textarea,
-select{
+select {
     font-family: 'PT Serif Caption', serif;
     padding: 4px 12px 5px;
     text-transform:uppercase;
@@ -559,6 +563,7 @@ select{
     border-radius: 0px;
     float: left;
 }
+
 input {
     height: 24px;
 }
@@ -568,6 +573,44 @@ input {
     width: auto;
     min-width: 25%;
     float: none;
+}
+
+#menu {
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+#menu select, #menu input {
+    text-transform: none;
+    font-size: 10.5px;
+}
+
+#menu select {
+    height: 30px;
+    width: auto;
+    min-width: 5%;
+    float: none;
+}
+
+#menu input {
+    width: 95.5%;
+}
+
+#menu .category-type {
+    display: inline-block;
+    float: left;
+}
+
+.recipe-preview .recipe-name {
+    font-size: 18px;
+    color: #343434;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.description {
+    text-transform: none;
+    font-size: 18px;
 }
 
 textarea {
@@ -697,3 +740,259 @@ footer {
 }
 .soc-list li a:hover{opacity:0.7}
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+#recipe-gallery {
+    width: 100%;
+    margin-top: 40px;
+    text-align: center;
+}
+
+#recipe-gallery .owl-carousel {
+    margin-left: 5%;
+    width: 90%;
+    height: 500px;
+}
+
+#recipe-gallery .owl-stage-outer, #recipe-gallery .owl-item {
+    height: 100%;
+}
+
+#recipe-gallery img {
+    width: 100%;
+    height: 500px;
+}
+
+.recipe .description {
+    margin-top: 40px;
+}
+
+article {
+    height: 350px;
+    position: static;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.recipe .recipe-name, .account-title {
+    font-size: 50px;
+    text-align: center;
+    height: auto;
+    line-height: 1;
+}
+
+.account-title {
+    font-size: 35px;
+    margin-top: 100px;
+    margin-bottom: 30px;
+}
+
+.owl-prev {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 40%;
+    margin-left: -70px;
+    display: block !important;
+    color: #6f6f6f !important;
+    border-bottom: 6px solid !important;
+    border-left: 6px solid !important;
+    transform: rotate(45deg);
+}
+
+.owl-next {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 40%;
+    right: -70px;
+    display: block !important;
+    color: #6f6f6f !important;
+    border-bottom: 6px solid !important;
+    border-left: 6px solid !important;
+    transform: rotate(-135deg);
+}
+
+.account-form {
+    text-align: center;
+}
+
+#sign-data {
+    overflow: auto;
+}
+
+#sign-data input {
+    text-transform: none;
+    width: 50%;
+    margin-left: 25%;
+    height: 30px;
+}
+
+.account-form button {
+    margin-top: 20px;
+}
+
+.action-btn {
+    margin-right: 0;
+}
+
+#action-buttons {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.field-title {
+    font-size: 20px;
+}
+
+#ingredients-tab {
+    overflow: auto;
+}
+
+#ingredients-tab input {
+    width: 90%;
+}
+
+.ingredient div {
+    width: 40%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.ingredient-delete {
+    position: absolute;
+    margin-top: 10px;
+}
+
+#edit-recipe-gallery img {
+    width: 500px;
+    height: auto;
+}
+
+#steps-tab img, #steps-tab video {
+    width: 300px;
+    height: auto;
+}
+
+#edit-recipe-gallery .image, #steps-tab .image, #steps-tab .video {
+    float: left;
+}
+
+#edit-recipe-gallery .image-container, #steps-tab .image-container, #steps-tab .video-container {
+    overflow: auto;
+    margin-top: 30px;
+}
+
+.image-delete, .video-delete {
+    margin-left: 20px;
+}
+
+.step {
+    margin-top: 20px;
+}
+
+#add-step {
+    margin-top: 20px;
+}
+
+.view-steps {
+    width: 100%;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.view-steps .owl-carousel {
+    margin-left: 5%;
+    width: 90%;
+    height: 600px;
+}
+
+.view-steps .owl-stage-outer, #view-steps .owl-item {
+    height: 100%;
+}
+
+.view-steps .step-media {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.view-steps .step-media img, .view-steps .step-media video {
+    width: 70%;
+    margin-left: 15%;
+    max-height: 350px;
+}
+
+.step-title {
+    font-size: 30px;
+}
+
+.comments-title, .ingredients-title {
+    font-size: 20px;
+}
+
+.ingredients-title {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+#add-comment {
+    margin-top: 20px;
+}
+
+.comment {
+    margin-top: 20px;
+}
+
+.comment-owner {
+    font-weight: bold;
+}
+
+.ingredients div {
+    display: inline-block;
+}
+
+#rate {
+    margin-top: 30px;
+}
+
+#rate div {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+#rate span {
+    font-size: 20px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.hidden {
+    display: none;
+}
+
+#favorites-btns {
+    float: right;
+}
+
+.comp-title {
+    text-align: center;
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+#search-list-container {
+    overflow: hidden;
+}
+
+#search-list {
+    width: 80%;
+}
+
+#search-list-btn {
+    position: absolute;
+    margin-top: 6px;
+}
+
+#wait-approve-block {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}

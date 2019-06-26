@@ -8,7 +8,6 @@ class DataBase
 
     const SYM_QUERY = "{?}";
 
-
     public static function getDB()
     {
         if (self::$db === null) {

@@ -2,9 +2,9 @@
 <?php RecipeController::addMenu(); ?>
 
 <div class="container_12">
-    <form action="/account/save" method="post">
+    <form action="/account/save" method="post" class="account-form">
         <div id="sign-data">
-            <div>
+            <div class="account-title">
                 Данные аккаунта
             </div>
             <div>
@@ -26,7 +26,8 @@
                 <?php if (!empty($message)) { echo $message; } ?>
             </div>
         </div>
-        <button>Сохранить</button>
+
+        <button class="btn">Сохранить</button>
     </form>
 </div>
 

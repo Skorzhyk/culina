@@ -2,17 +2,8 @@
 <?php RecipeController::addMenu(); ?>
 
 <div class="recipe">
-    <div><span><?php echo $recipe->getName(); ?></span></div>
-    <div><p><?php echo $recipe->getDescription(); ?></p></div>
-    <div>
-        <?php if (!empty($recipe->getImages())) : ?>
-            <?php foreach ($recipe->getImages() as $image) : ?>
-                <div>
-                    <img src="/view/web/images/recipes/<?php echo $recipe->getId() . '/' . $image->getImage(); ?>"/>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+    <div class="recipe-name"><?php echo $recipe->getName(); ?></div>
+
     <div id="rate">
         <?php
             $rate = !empty($_SESSION['rates'][$recipe->getId()]) ? $_SESSION['rates'][$recipe->getId()] : false;
@@ -29,70 +20,102 @@
             }
         ?>
         <div>
-            <button id="like" class="<?php echo $likeClass; ?>">Нравится</button>
+            <button id="like" class="btn <?php echo $likeClass; ?>">Нравится</button>
             <span id="like-number"><?php echo $recipe->getLikes(); ?></span>
         </div>
         <div>
-            <button id="dislike" class="<?php echo $dislikeClass; ?>">Не нравится</button>
+            <button id="dislike" class="btn <?php echo $dislikeClass; ?>">Не нравится</button>
             <span id="dislike-number"><?php echo $recipe->getDislikes(); ?></span>
         </div>
-    </div>
-    <div>
-        <?php if (!empty($_SESSION['userId'])) : ?>
-            <?php $isFavorite = in_array($recipe->getId(), $user->getFavorites()); ?>
-            <div>
-                <button id="add-to-favorites" type="button" <?php echo $isFavorite ? 'hidden' : ''; ?>>В Избранное</button>
-                <button id="remove-from-favorites" type="button" <?php echo $isFavorite ? '' : 'hidden'; ?>>Удалить из Избранного</button>
-            </div>
-        <?php endif; ?>
-    </div>
-    <div class="view-steps">
-        <?php foreach ($recipe->getSteps() as $step) : ?>
-            <div>
-                <div><span>Шаг <?php echo $step->getOrderNumber(); ?></span></div>
+
+        <div id="favorites-btns">
+            <?php if (!empty($_SESSION['userId'])) : ?>
+                <?php $isFavorite = in_array($recipe->getId(), $user->getFavorites()); ?>
                 <div>
+                    <button id="add-to-favorites" class="btn <?php echo $isFavorite ? 'hidden' : ''; ?>" type="button">В Избранное</button>
+                    <button id="remove-from-favorites" class="btn <?php echo $isFavorite ? '' : 'hidden'; ?>" type="button">Удалить из Избранного</button>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div id="recipe-gallery">
+        <div class="owl-carousel">
+            <?php if (!empty($recipe->getImages())) : ?>
+                <?php foreach ($recipe->getImages() as $image) : ?>
+                    <div>
+                        <img src="/view/web/images/recipes/<?php echo $recipe->getId() . '/' . $image->getImage(); ?>"/>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+    <div class="description"><p><?php echo $recipe->getDescription(); ?></p></div>
+
+    <div id="ingredients">
+        <div class="ingredients-title">Ингредиенты</div>
+        <?php foreach ($recipe->getIngredients() as $ingredient) : ?>
+            <div class="ingredient">
+                <div><?php echo $ingredient['name']; ?></div>
+                <div><?php echo $ingredient['amount']; ?></div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="view-steps">
+        <div class="owl-carousel">
+            <?php foreach ($recipe->getSteps() as $step) : ?>
+                <div>
+                    <div class="step-title">Шаг <?php echo $step->getOrderNumber(); ?></div>
                     <?php if (!empty($step->getImage())) : ?>
-                        <div>
+                        <div class="step-media">
                             <img src="/view/web/images/recipes/<?php echo $recipe->getId() . '/steps/' . $step->getImage(); ?>"/>
                         </div>
                     <?php elseif (!empty($step->getVideo())) : ?>
-                        <div>
+                        <div class="step-media">
                             <video controls="controls">
                                 <source src="/view/web/images/recipes/<?php echo $recipe->getId() . '/steps/' . $step->getVideo(); ?>">
                             </video>
                         </div>
                     <?php endif; ?>
+                    <div class="description">
+                        <p><?php echo $step->getDescription(); ?></p>
+                    </div>
                 </div>
-                <div>
-                    <p><?php echo $step->getDescription(); ?></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 
     <div id="comments">
-        <span>Комментарии</span>
+        <div class="comments-title">Комментарии</div>
         <?php if (!empty($recipe->getComments())) : ?>
             <?php foreach ($recipe->getComments() as $comment) : ?>
                 <div class="comment">
-                    <div><span><?php echo $comment->getUserName(); ?></span></div>
-                    <div><p><?php echo $comment->getText(); ?></p></div>
+                    <div class="comment-owner"><?php echo $comment->getUserName(); ?></div>
+                    <div class="comment-text"><?php echo $comment->getText(); ?></div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
 
         <?php if (!empty($_SESSION['userId'])) : ?>
-            <button type="button" id="add-comment">Оставить комментарий</button>
+            <button class="btn" type="button" id="add-comment">Оставить комментарий</button>
         <?php endif; ?>
     </div>
 </div>
 
 <script>
     $(function () {
+        $(".owl-carousel").owlCarousel({
+            items: 1,
+            nav: true,
+            dots: false,
+            navText : ['<i class="fa fa-angle-left" aria-hidden="true"></i>','<i class="fa fa-angle-right" aria-hidden="true"></i>']
+        });
+
         $('#add-comment').click(function () {
             var commentTemplate = '<form action="/recipe/comment/<?php echo $recipe->getId(); ?>" method="post" enctype="multipart/form-data"><div id="comment-form">' +
                 '<div><input name="comment" required></div>' +
-                '<button id="save-comment" type="button">Опубликовать</button>' +
+                '<div><button class="btn" id="save-comment" type="button">Опубликовать</button><div>' +
                 '</div></form>';
 
             $(this).hide();
@@ -111,8 +134,8 @@
                 success: function(response) {
                     if (response !== 'error') {
                         var newComment = '<div class="comment">' +
-                            '<div><span>' + response + '</span></div>' +
-                            '<div><p>' + comment + '</p></div>' +
+                            '<div class="comment-owner">' + response + '</div>' +
+                            '<div class="comment-text">' + comment + '</div>' +
                             '</div>';
 
                         form.remove();
@@ -146,6 +169,8 @@
                 success: function(response) {
                     $('#' + rate).addClass('active');
                     $('#' + rate + '-number').html(response);
+                    $('#like').addClass('disabled');
+                    $('#dislike').addClass('disabled');
                 }
             });
         }
@@ -157,7 +182,7 @@
 
                 success: function() {
                     $('#add-to-favorites').hide();
-                    $('#remove-from-favorites').show();
+                    $('#remove-from-favorites').css('display', 'inline-block');
                 }
             });
         });
@@ -169,7 +194,7 @@
 
                 success: function() {
                     $('#remove-from-favorites').hide();
-                    $('#add-to-favorites').show();
+                    $('#add-to-favorites').css('display', 'inline-block');
                 }
             });
         });

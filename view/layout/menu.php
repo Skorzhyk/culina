@@ -13,13 +13,10 @@
                     $hiddenTag = 'disabled';
 
                     if (!empty($_POST['cats'])) {
-                        foreach ($categoriesByType as $categoryId => $subCategory) {
-                            $subCategoryIds = array_keys($subCategory);
+                        $categoriesByTypeIds = array_keys($categoriesByType);
 
-                            if (!empty(array_intersect($subCategoryIds, $_POST['cats']))) {
-                                $hiddenTag = 'hidden disabled';
-                                break;
-                            }
+                        if (!empty(array_intersect($categoriesByTypeIds, $_POST['cats']))) {
+                            $hiddenTag = 'hidden disabled';
                         }
                     }
                 ?>
@@ -32,7 +29,7 @@
                             <?php endforeach; ?>
                         </select>
                         <?php
-                            if ($hiddenTag == 'disabled' || $hiddenTag == '') {
+                            if ($hiddenTag == 'disabled') {
                                 $hiddenTag = 'hidden disabled';
                             }
                         ?>
@@ -41,9 +38,9 @@
             </div>
         <?php endforeach; ?>
 
-        <div><input name="search"/></div>
+        <div><input name="search" placeholder="Введите текст поиска..."/></div>
 
-        <button type="submit">Искать</button>
+        <button class="btn" type="submit">Искать</button>
     </form>
 </div>
 
@@ -61,7 +58,7 @@
                     $(elem).hide();
 
                     if (selectedCat.val() == 0 && index == 1) {
-                        $(elem)..css('display', 'inline-block');
+                        $(elem).css('display', 'inline-block');
                     }
                 }
 

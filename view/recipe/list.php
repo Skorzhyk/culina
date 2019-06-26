@@ -1,13 +1,15 @@
 <?php require_once 'view/layout/header.php' ?>
 
 <form action="/list" method="post" enctype="multipart/form-data">
-    <div><input name="search"/></div>
-    <button type="submit">Искать</button>
+    <div id="search-list-container">
+        <input id="search-list" name="search" placeholder="Введите текст поиска..."/>
+        <button id="search-list-btn" class="btn" type="submit">Искать</button>
+    </div>
 </form>
 
 <?php if (empty($filter)) : ?>
-    <div>
-        <a href="<?php echo $_SERVER['REQUEST_URI']; ?>/new"><button type="button">Ожидают подтверждения</button> </a>
+    <div id="wait-approve-block">
+        <a href="<?php echo $_SERVER['REQUEST_URI']; ?>/new"><button class="btn" type="button">Ожидают подтверждения</button> </a>
     </div>
 <?php endif; ?>
 

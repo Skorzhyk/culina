@@ -203,11 +203,12 @@ class RecipeController
 
                 if (!empty($postCategories)) {
                     foreach ($recipes as $key => $recipe) {
-                        if (!empty(array_intersect($recipe->getCategories(), $postCategories))) {
-                            continue;
+                        foreach ($postCategories as $category) {
+                            if (!in_array($category, $recipe->getCategories())) {
+                                unset($recipes[$key]);
+                                break;
+                            }
                         }
-
-                        unset($recipes[$key]);
                     }
                 }
 
@@ -239,7 +240,13 @@ class RecipeController
 
             $favorites = !empty($user->getFavorites()) ? implode(',', $user->getFavorites()) : '';
 
-            $recipes = $recipeObject->getList(' WHERE id IN (' . DataBase::SYM_QUERY . ')', [$favorites]);
+//            $recipes = $recipeObject->getList(' WHERE id IN (' . DataBase::SYM_QUERY . ')', [$favorites]);
+            $recipes = $recipeObject->getList();
+            foreach ($recipes as $key => $recipe) {
+                if (!in_array($recipe->getId(), $user->getFavorites())) {
+                    unset($recipes[$key]);
+                }
+            }
 
             if (empty($recipes)) {
                 throw new Exception('Список Избранного пуст.');

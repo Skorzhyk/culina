@@ -2,13 +2,15 @@
 <?php RecipeController::addMenu(); ?>
 
 <div class="container_12">
-    <a href="/login">
-        <button id="change-sign-button">Войти в аккаунт</button>
-    </a>
+    <div id="action-buttons">
+        <a href="/login">
+            <button class="btn action-btn">Войти в аккаунт</button>
+        </a>
+    </div>
 
-    <form action="/registration" method="post">
+    <form action="/registration" method="post" class="account-form">
         <div id="sign-data">
-            <div>
+            <div class="account-title">
                 Зарегистрироваться в Culina
             </div>
             <div>
@@ -30,7 +32,7 @@
                 <?php if (!empty($message)) { echo $message; } ?>
             </div>
         </div>
-        <button>Зарегистрироваться</button>
+        <button class="btn">Зарегистрироваться</button>
     </form>
 </div>
 
